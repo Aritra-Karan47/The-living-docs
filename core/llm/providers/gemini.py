@@ -1,14 +1,15 @@
-from google import genai
+import google.generativeai as genai
 from core.config import settings
 from utils.logging import logger
 
 class GeminiAdapter:
     def __init__(self):
-        self.client = genai.Client(api_key=settings.gemini_api_key)
+        genai.configure(api_key=settings.gemini_api_key)
+        self.client = genai
 
     async def generate_raw(self, prompt: str) -> str:
         logger.info("[Gemini] Sending prompt...")
-        response = self.client.models.generate_content(
+        response = self.client.generate_content(
             model="gemini-1.5-flash",
             contents=prompt
         )
